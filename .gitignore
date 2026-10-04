@@ -1,0 +1,7 @@
+target/
+db.properties
+src/main/resources/db.properties
+nbproject/private/
+*.log
+.idea/
+*.iml
