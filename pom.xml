@@ -10,6 +10,13 @@
         <maven.compiler.release>17</maven.compiler.release>
         <exec.mainClass>com.daniel.inventario.App</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <version>21.11.0.0</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
