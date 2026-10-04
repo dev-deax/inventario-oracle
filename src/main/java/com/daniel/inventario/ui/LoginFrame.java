@@ -105,5 +105,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
     private void accesoCorrecto(Usuario usuario) {
         Dialogs.exito(this, "Inicio de sesión exitoso. Bienvenido, " + usuario.getNombre() + ".");
+        new MainFrame(usuario).setVisible(true);
+        dispose();
     }
 }
