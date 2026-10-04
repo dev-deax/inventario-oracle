@@ -49,6 +49,7 @@ public class MainFrame extends JFrame implements ActionListener {
         inicio.setBorder(BorderFactory.createEmptyBorder(28, 28, 28, 28));
         inicio.add(UiFactory.titulo("Bienvenido, " + sesion.getNombre()), BorderLayout.NORTH);
         agregarPantalla("Inicio", inicio);
+        agregarPantalla("Usuarios", new UsuarioPanel(sesion));
         menu.add(Box.createVerticalGlue());
         JButton salir = UiFactory.boton("Cerrar sesión", Style.SUAVE);
         salir.setActionCommand("salir");
