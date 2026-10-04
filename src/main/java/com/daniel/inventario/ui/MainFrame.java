@@ -20,14 +20,12 @@ public class MainFrame extends JFrame implements ActionListener {
     private final CardLayout distribucion = new CardLayout();
     private final JPanel pantallas = new JPanel(distribucion);
     private final JPanel menu = new JPanel();
-    private final Usuario sesion;
 
     public MainFrame(Usuario sesion) {
         super("Inventario Oracle");
         if (sesion == null || sesion.getId() == null) {
             throw new IllegalArgumentException("Debes iniciar sesión.");
         }
-        this.sesion = sesion;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(1050, 700));
@@ -45,9 +43,7 @@ public class MainFrame extends JFrame implements ActionListener {
         menu.add(marca);
         menu.add(Box.createVerticalStrut(25));
 
-        JPanel inicio = new JPanel(new BorderLayout());
-        inicio.setBorder(BorderFactory.createEmptyBorder(28, 28, 28, 28));
-        inicio.add(UiFactory.titulo("Bienvenido, " + sesion.getNombre()), BorderLayout.NORTH);
+        DashboardPanel inicio = new DashboardPanel(sesion.getNombre());
         agregarPantalla("Inicio", inicio);
         agregarPantalla("Usuarios", new UsuarioPanel(sesion));
         agregarPantalla("Categorías", new CategoriaPanel());
@@ -60,6 +56,7 @@ public class MainFrame extends JFrame implements ActionListener {
         menu.add(salir);
         add(menu, BorderLayout.WEST);
         add(pantallas, BorderLayout.CENTER);
+        inicio.cargarDatos();
     }
 
     private void agregarPantalla(String nombre, JPanel panel) {
