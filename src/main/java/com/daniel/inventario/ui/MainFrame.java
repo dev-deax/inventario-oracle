@@ -51,6 +51,7 @@ public class MainFrame extends JFrame implements ActionListener {
         agregarPantalla("Inicio", inicio);
         agregarPantalla("Usuarios", new UsuarioPanel(sesion));
         agregarPantalla("Categorías", new CategoriaPanel());
+        agregarPantalla("Proveedores", new ProveedorPanel());
         menu.add(Box.createVerticalGlue());
         JButton salir = UiFactory.boton("Cerrar sesión", Style.SUAVE);
         salir.setActionCommand("salir");
