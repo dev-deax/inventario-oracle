@@ -56,6 +56,7 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
         tabla.setSelectionBackground(new java.awt.Color(204, 224, 246));
         tabla.setSelectionForeground(Style.TEXTO);
         JScrollPane scrollTabla = new JScrollPane(tabla);
+        scrollTabla.setColumnHeaderView(tabla.getTableHeader());
         scrollTabla.getViewport().setBackground(Style.PANEL);
         add(scrollTabla, BorderLayout.CENTER);
 
