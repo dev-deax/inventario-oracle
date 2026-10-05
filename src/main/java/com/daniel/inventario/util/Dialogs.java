@@ -18,7 +18,7 @@ public class Dialogs {
             } else if (sql.getErrorCode() == 1017 || sql.getErrorCode() == 28000) {
                 mensaje = "Revisa la cuenta de Oracle configurada en db.properties.";
             } else if (sql.getErrorCode() == 942) {
-                mensaje = "Faltan tablas. Ejecuta los scripts del proyecto como INVENTARIO_APP.";
+                mensaje = "Faltan tablas. Ejecuta los scripts del proyecto como INVENTARIO_CURSO.";
             } else if (sql.getSQLState() != null && sql.getSQLState().startsWith("08")
                     || sql.getErrorCode() == 17002 || sql.getErrorCode() == 12514
                     || sql.getErrorCode() == 12541) {

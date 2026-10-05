@@ -1,4 +1,4 @@
--- Ejecutar una vez como INVENTARIO_APP después de los scripts 02 a 05.
+-- Ejecutar una vez como INVENTARIO_CURSO después de los scripts 02 a 05.
 WHENEVER SQLERROR EXIT SQL.SQLCODE ROLLBACK
 INSERT INTO categorias (id, nombre, descripcion)
 VALUES (categorias_seq.NEXTVAL, 'Tecnología', 'Accesorios de computadora');

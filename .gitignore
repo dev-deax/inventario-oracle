@@ -1,5 +1,6 @@
 target/
 db.properties
+acceso-demo.local.txt
 src/main/resources/db.properties
 nbproject/private/
 *.log

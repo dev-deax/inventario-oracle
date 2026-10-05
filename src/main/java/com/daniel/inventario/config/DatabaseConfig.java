@@ -25,7 +25,7 @@ public class DatabaseConfig {
         }
         String usuario = datos.getProperty("db.user");
         if (usuario.equalsIgnoreCase("SYSTEM") || usuario.equalsIgnoreCase("SYS")) {
-            throw new IOException("Utiliza INVENTARIO_APP, no una cuenta administradora de Oracle.");
+            throw new IOException("Utiliza INVENTARIO_CURSO, no una cuenta administradora de Oracle.");
         }
         return datos;
     }
