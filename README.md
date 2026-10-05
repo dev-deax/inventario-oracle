@@ -10,7 +10,7 @@ Login y CRUD de usuarios, categorías, proveedores y productos. Sin buscadores n
 2. Conectar como SYSTEM **a XEPDB1** y ejecutar `sql/01_crear_usuario_oracle.sql` con SQL*Plus o SQLcl. Solicita una contraseña para `INVENTARIO_CURSO`.
 3. Conectar como `INVENTARIO_CURSO` y ejecutar, en orden, los scripts `02` a `05`.
 4. Opcionalmente ejecutar `06_datos_demostracion_inventario.sql` una vez.
-5. Copiar `db.properties.example` a `db.properties`, en la raíz del proyecto, y colocar la contraseña elegida.
+5. Copiar `config/database.properties.example` a `config/database.properties`, dentro de la carpeta config del proyecto, y colocar la contraseña elegida.
 
 `INVENTARIO_CURSO` es la cuenta y el esquema exclusivos del proyecto. La aplicación no utiliza SYSTEM ni el esquema del proyecto anterior. Los scripts crean objetos nuevos y no deben repetirse sobre un esquema ya instalado. Los cambios posteriores se agregan con nuevos scripts.
 
