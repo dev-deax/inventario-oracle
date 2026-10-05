@@ -4,7 +4,10 @@ import com.daniel.inventario.dao.UsuarioDAO;
 import com.daniel.inventario.model.Usuario;
 import com.daniel.inventario.util.Dialogs;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -32,11 +35,9 @@ public class LoginFrame extends JFrame implements ActionListener {
         contenido.add(UiFactory.titulo("Inventario Oracle"), BorderLayout.NORTH);
 
         // Cada etiqueta queda encima del campo correspondiente.
-        JPanel campos = new JPanel(new GridLayout(4, 1, 0, 8));
-        campos.add(UiFactory.etiqueta("Usuario", txtUsuario));
-        campos.add(txtUsuario);
-        campos.add(UiFactory.etiqueta("Contraseña", txtPassword));
-        campos.add(txtPassword);
+        JPanel campos = new JPanel(new GridBagLayout());
+        agregarCampo(campos, "Usuario", txtUsuario, 0);
+        agregarCampo(campos, "Contraseña", txtPassword, 2);
         contenido.add(campos, BorderLayout.CENTER);
         JPanel pie = new JPanel(new BorderLayout(0, 12));
         estado.setForeground(Style.SUAVE);
@@ -46,11 +47,27 @@ public class LoginFrame extends JFrame implements ActionListener {
         setContentPane(contenido);
         btnEntrar.addActionListener(this);
         getRootPane().setDefaultButton(btnEntrar);
-        setSize(480, 370);
+        // pack respeta la altura de los campos y la fuente del sistema.
+        pack();
+        setSize(Math.max(480, getWidth()), getHeight());
+        setMinimumSize(new Dimension(getWidth(), getHeight()));
         setResizable(false);
         setLocationRelativeTo(null);
     }
 
+    private void agregarCampo(JPanel panel, String etiqueta, JTextField campo, int fila) {
+        GridBagConstraints posicion = new GridBagConstraints();
+        posicion.gridx = 0;
+        posicion.gridy = fila;
+        posicion.weightx = 1;
+        posicion.fill = GridBagConstraints.HORIZONTAL;
+        posicion.anchor = GridBagConstraints.WEST;
+        posicion.insets = new Insets(0, 0, 6, 0);
+        panel.add(UiFactory.etiqueta(etiqueta, campo), posicion);
+        posicion.gridy = fila + 1;
+        posicion.insets = new Insets(0, 0, 14, 0);
+        panel.add(campo, posicion);
+    }
     @Override
     public void actionPerformed(ActionEvent evento) {
         final String usuario = txtUsuario.getText();

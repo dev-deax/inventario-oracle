@@ -8,9 +8,9 @@ import java.util.Properties;
 
 public class DatabaseConfig {
     public static Properties cargar() throws IOException {
-        Path archivo = Path.of("db.properties");
+        Path archivo = Path.of("config/database.properties");
         if (!Files.exists(archivo)) {
-            throw new IOException("Copia db.properties.example como db.properties y configura Oracle.");
+            throw new IOException("Copia config/database.properties.example como config/database.properties y configura Oracle.");
         }
         Properties datos = new Properties();
         try (InputStream entrada = Files.newInputStream(archivo)) {
@@ -20,7 +20,7 @@ public class DatabaseConfig {
         for (String campo : campos) {
             String valor = datos.getProperty(campo);
             if (valor == null || valor.isBlank()) {
-                throw new IOException("Falta configurar " + campo + " en db.properties.");
+                throw new IOException("Falta configurar " + campo + " en config/database.properties.");
             }
         }
         String usuario = datos.getProperty("db.user");

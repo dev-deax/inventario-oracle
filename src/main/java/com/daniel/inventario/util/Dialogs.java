@@ -16,13 +16,13 @@ public class Dialogs {
             } else if (sql.getErrorCode() == 2291) {
                 mensaje = "La categoría o el proveedor ya no existe. Actualiza la lista.";
             } else if (sql.getErrorCode() == 1017 || sql.getErrorCode() == 28000) {
-                mensaje = "Revisa la cuenta de Oracle configurada en db.properties.";
+                mensaje = "Revisa la cuenta de Oracle configurada en config/database.properties.";
             } else if (sql.getErrorCode() == 942) {
                 mensaje = "Faltan tablas. Ejecuta los scripts del proyecto como INVENTARIO_CURSO.";
             } else if (sql.getSQLState() != null && sql.getSQLState().startsWith("08")
                     || sql.getErrorCode() == 17002 || sql.getErrorCode() == 12514
                     || sql.getErrorCode() == 12541) {
-                mensaje = "No fue posible conectar con Oracle. Revisa el servicio y db.properties.";
+                mensaje = "No fue posible conectar con Oracle. Revisa el servicio y config/database.properties.";
             }
         }
         JOptionPane.showMessageDialog(ventana, mensaje, "No se pudo completar", JOptionPane.ERROR_MESSAGE);

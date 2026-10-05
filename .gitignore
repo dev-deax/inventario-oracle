@@ -6,3 +6,4 @@ nbproject/private/
 *.log
 .idea/
 *.iml
+/config/database.properties
