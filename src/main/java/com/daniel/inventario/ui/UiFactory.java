@@ -24,8 +24,10 @@ public class UiFactory {
     }
 
     private static void prepararCampo(JTextField campo) {
-        campo.setPreferredSize(new Dimension(230, 36));
+
         campo.setMargin(new java.awt.Insets(6, 8, 6, 8));
+        Dimension natural = campo.getPreferredSize();
+        campo.setPreferredSize(new Dimension(Math.max(230, natural.width), Math.max(36, natural.height)));
     }
 
     public static JButton boton(String texto, Color color) {
