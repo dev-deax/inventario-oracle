@@ -50,26 +50,46 @@ public class MainFrame extends JFrame implements ActionListener {
         agregarPantalla("Proveedores", new ProveedorPanel());
         agregarPantalla("Productos", new ProductoPanel());
         menu.add(Box.createVerticalGlue());
-        JButton salir = UiFactory.boton("Cerrar sesión", Style.SUAVE);
+        JButton salir = UiFactory.botonMenu("Cerrar sesión");
         salir.setActionCommand("salir");
         salir.addActionListener(this);
         menu.add(salir);
         add(menu, BorderLayout.WEST);
         add(pantallas, BorderLayout.CENTER);
+        marcarSeccion("Inicio");
         inicio.cargarDatos();
     }
 
     private void agregarPantalla(String nombre, JPanel panel) {
         pantallas.add(panel, nombre);
-        JButton boton = UiFactory.boton(nombre, Style.AZUL);
-        boton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        boton.setMaximumSize(new Dimension(180, 42));
+        JButton boton = UiFactory.botonMenu(nombre);
+
+
         boton.setActionCommand(nombre);
         boton.addActionListener(this);
         menu.add(boton);
         menu.add(Box.createVerticalStrut(8));
     }
 
+    private void marcarSeccion(String nombre) {
+        for (Component componente : menu.getComponents()) {
+            if (componente instanceof JButton) {
+                JButton boton = (JButton) componente;
+                boolean activo = boton.getActionCommand().equals(nombre);
+                if (activo) {
+                    boton.setBackground(Style.AZUL);
+                    boton.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createMatteBorder(0, 4, 0, 0, Style.PANEL),
+                            BorderFactory.createEmptyBorder(8, 10, 8, 14)));
+                    boton.getAccessibleContext().setAccessibleDescription("Sección actual");
+                } else {
+                    boton.setBackground(Style.SUAVE);
+                    boton.setBorder(javax.swing.UIManager.getBorder("Button.border"));
+                    boton.getAccessibleContext().setAccessibleDescription("Abrir " + boton.getText());
+                }
+            }
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent evento) {
         String accion = evento.getActionCommand();
@@ -80,6 +100,7 @@ public class MainFrame extends JFrame implements ActionListener {
             }
             return;
         }
+        marcarSeccion(accion);
         distribucion.show(pantallas, accion);
         for (Component panel : pantallas.getComponents()) {
             if (panel.isVisible() && panel instanceof Refreshable) {

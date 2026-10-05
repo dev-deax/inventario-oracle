@@ -3,13 +3,13 @@ package com.daniel.inventario.ui;
 import com.daniel.inventario.util.Dialogs;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -49,7 +49,13 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
             }
         };
         tabla = new JTable(modelo);
-        tabla.setRowHeight(32);
+        tabla.setRowHeight(36);
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabla.getColumnModel().getColumn(0).setMaxWidth(60);
+        tabla.setShowVerticalLines(false);
+        tabla.setGridColor(Style.BORDE);
+        tabla.getTableHeader().setFont(Style.NEGRITA);
+        tabla.getTableHeader().setPreferredSize(new Dimension(0, 36));
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.getSelectionModel().addListSelectionListener(this);
         tabla.getTableHeader().setReorderingAllowed(false);
@@ -60,7 +66,7 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
         scrollTabla.getViewport().setBackground(Style.PANEL);
         add(scrollTabla, BorderLayout.CENTER);
 
-        JPanel acciones = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
+        JPanel acciones = UiFactory.barraAcciones();
         agregarBoton(acciones, "Nuevo", Style.SUAVE);
         agregarBoton(acciones, "Guardar", Style.VERDE);
         agregarBoton(acciones, "Eliminar", Style.ROJO);
@@ -85,6 +91,9 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
     private void agregarBoton(JPanel panel, String texto, java.awt.Color color) {
         JButton boton = UiFactory.boton(texto, color);
         boton.addActionListener(this);
+        if (panel.getComponentCount() > 0) {
+            panel.add(Box.createHorizontalStrut(8));
+        }
         panel.add(boton);
     }
 
