@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 public class UiFactory {
     public static JTextField campo() {
@@ -37,9 +38,29 @@ public class UiFactory {
         boton.setFont(Style.NEGRITA);
         boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         boton.setPreferredSize(new Dimension(130, 40));
+        boton.setMinimumSize(new Dimension(130, 40));
+        boton.setMaximumSize(new Dimension(130, 40));
         return boton;
     }
 
+    public static JButton botonMenu(String texto) {
+        JButton boton = boton(texto, Style.SUAVE);
+        Dimension tamano = new Dimension(173, 44);
+        boton.setPreferredSize(tamano);
+        boton.setMinimumSize(tamano);
+        boton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
+        boton.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+        boton.setHorizontalAlignment(JButton.LEFT);
+        boton.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        return boton;
+    }
+
+    public static JPanel barraAcciones() {
+        JPanel barra = new JPanel();
+        barra.setLayout(new javax.swing.BoxLayout(barra, javax.swing.BoxLayout.X_AXIS));
+        barra.setOpaque(false);
+        return barra;
+    }
     public static JLabel etiqueta(String texto, JComponent campo) {
         JLabel etiqueta = new JLabel(texto);
         etiqueta.setForeground(Style.TEXTO);

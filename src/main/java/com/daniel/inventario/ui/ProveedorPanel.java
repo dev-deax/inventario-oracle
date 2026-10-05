@@ -21,6 +21,11 @@ public class ProveedorPanel extends BaseCrudPanel {
         agregarCampo("NIT", txtNit);
         agregarCampo("Teléfono", txtTelefono);
         agregarCampo("Correo", txtEmail);
+        tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        int[] anchos = {50, 170, 160, 120, 130, 240};
+        for (int i = 0; i < anchos.length; i++) {
+            tabla.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
     }
 
     @Override
