@@ -6,9 +6,18 @@ import javax.swing.JOptionPane;
 
 public class Dialogs {
     public static void error(Component ventana, Exception error) {
-        String mensaje = error.getMessage();
+        String mensaje = mensajeError(error);
+        JOptionPane.showMessageDialog(ventana, mensaje, "No se pudo completar", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static String mensajeError(Exception error) {
+        String mensaje = "No fue posible completar la operación. Inténtalo nuevamente.";
+        if (error instanceof IllegalArgumentException) {
+            return error.getMessage();
+        }
         if (error instanceof SQLException) {
             SQLException sql = (SQLException) error;
+            mensaje = "No fue posible completar la operación en la base de datos. Revisa la conexión e inténtalo nuevamente.";
             if (sql.getErrorCode() == 1) {
                 mensaje = "Ya existe un registro con ese usuario, nombre, código o NIT.";
             } else if (sql.getErrorCode() == 2292) {
@@ -25,7 +34,7 @@ public class Dialogs {
                 mensaje = "No fue posible conectar con Oracle. Revisa el servicio y config/database.properties.";
             }
         }
-        JOptionPane.showMessageDialog(ventana, mensaje, "No se pudo completar", JOptionPane.ERROR_MESSAGE);
+        return mensaje;
     }
 
     public static void exito(Component ventana, String mensaje) {

@@ -64,6 +64,15 @@ public class OracleIntegrationTest {
             productos.insertar(producto);
             Producto guardado = productos.listar().get(0);
             comprobar(guardado.getCodigo().equals(codigo), "Producto reciente primero");
+            comprobar(usuarios.buscar(marca.toUpperCase(java.util.Locale.ROOT)).size() == 1, "Buscar usuario sin distinguir mayúsculas");
+            comprobar(categorias.buscar(marca).get(0).getId().equals(categoria.getId()), "Buscar categoría");
+            comprobar(proveedores.buscar(marca).get(0).getId().equals(proveedor.getId()), "Buscar proveedor");
+            comprobar(productos.buscar(marca).get(0).getId().equals(guardado.getId()), "Buscar producto por código o relaciones");
+            comprobar(productos.buscar(String.valueOf(guardado.getId())).size() >= 1, "Buscar por ID");
+            comprobar(productos.buscar("' OR 1=1 --").isEmpty(), "Búsqueda parametrizada");
+            comprobar(categorias.buscar("sin_coincidencias_" + marca).isEmpty(), "Búsqueda sin resultados");
+            comprobar(productos.buscar("").size() == productos.listar().size(), "Búsqueda vacía lista todos");
+
             boolean referencia = false;
             try {
                 categorias.eliminar(categoria.getId());

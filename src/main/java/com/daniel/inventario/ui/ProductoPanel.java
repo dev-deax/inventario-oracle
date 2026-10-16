@@ -53,7 +53,7 @@ public class ProductoPanel extends BaseCrudPanel {
         for (Proveedor proveedor : proveedores) {
             cboProveedor.addItem(proveedor);
         }
-        productos = dao.listar();
+        productos = dao.buscar(txtBusqueda.getText());
         for (Producto producto : productos) {
             String estado = "No";
             if (producto.isActivo()) {

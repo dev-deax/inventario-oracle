@@ -15,6 +15,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -25,12 +27,29 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
     protected final DefaultTableModel modelo;
     protected final JTable tabla;
     protected Long idSeleccionado;
+    protected final JTextField txtBusqueda = UiFactory.campo();
+    private final JLabel estadoBusqueda = new JLabel("Ingresa un texto o pulsa Actualizar para ver todos.");
     private int filaFormulario;
 
     protected BaseCrudPanel(String titulo, String[] columnas) {
         setLayout(new BorderLayout(18, 18));
         setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
-        add(UiFactory.titulo(titulo), BorderLayout.NORTH);
+        JPanel encabezado = new JPanel(new BorderLayout(0, 8));
+        encabezado.setOpaque(false);
+        encabezado.add(UiFactory.titulo(titulo), BorderLayout.NORTH);
+        JPanel busqueda = new JPanel(new BorderLayout(12, 0));
+        busqueda.setOpaque(false);
+        busqueda.add(UiFactory.etiqueta("Buscar por ID o texto", txtBusqueda), BorderLayout.WEST);
+        busqueda.add(txtBusqueda, BorderLayout.CENTER);
+        JButton buscar = UiFactory.boton("Buscar", Style.AZUL);
+        buscar.addActionListener(this);
+        txtBusqueda.setActionCommand("Buscar");
+        txtBusqueda.addActionListener(this);
+        busqueda.add(buscar, BorderLayout.EAST);
+        encabezado.add(busqueda, BorderLayout.CENTER);
+        estadoBusqueda.setForeground(Style.SUAVE);
+        encabezado.add(estadoBusqueda, BorderLayout.SOUTH);
+        add(encabezado, BorderLayout.NORTH);
         formulario.setBackground(Style.PANEL);
         formulario.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
@@ -103,7 +122,10 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
         try {
             if (accion.equals("Nuevo")) {
                 limpiar();
+            } else if (accion.equals("Buscar")) {
+                cargarDatos();
             } else if (accion.equals("Actualizar")) {
+                txtBusqueda.setText("");
                 cargarDatos();
             } else if (accion.equals("Guardar")) {
                 guardar();
@@ -137,7 +159,9 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
         modelo.setRowCount(0);
         try {
             listar();
+            estadoBusqueda.setText(modelo.getRowCount() + " registro(s) encontrado(s).");
         } catch (Exception ex) {
+            estadoBusqueda.setText("No fue posible cargar los registros.");
             Dialogs.error(this, ex);
         }
     }

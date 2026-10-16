@@ -14,24 +14,34 @@ import java.util.Locale;
 
 public class ProductoDAO {
     public ArrayList<Producto> listar() throws SQLException {
+        return buscar("");
+    }
+
+    public ArrayList<Producto> buscar(String texto) throws SQLException {
         ArrayList<Producto> productos = new ArrayList<>();
         String sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.stock, p.activo, "
                 + "c.id categoria_id, c.nombre categoria_nombre, c.descripcion, "
                 + "v.id proveedor_id, v.nombre proveedor_nombre, v.empresa, v.nit, v.telefono, v.email "
                 + "FROM productos p JOIN categorias c ON c.id = p.categoria_id "
-                + "JOIN proveedores v ON v.id = p.proveedor_id ORDER BY p.creado_en DESC, p.id DESC";
+                + "JOIN proveedores v ON v.id = p.proveedor_id"
+                + "WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(p.id) || ' ' || p.codigo || ' ' || p.nombre || ' ' || c.nombre || ' ' || v.nombre), LOWER(?)) > 0)"
+                + " ORDER BY p.creado_en DESC, p.id DESC";
         try (Connection conexion = ConnectionManager.conectar();
-                PreparedStatement consulta = conexion.prepareStatement(sql);
-                ResultSet resultado = consulta.executeQuery()) {
-            while (resultado.next()) {
-                Categoria categoria = new Categoria(resultado.getLong("categoria_id"),
-                        resultado.getString("categoria_nombre"), resultado.getString("descripcion"));
-                Proveedor proveedor = new Proveedor(resultado.getLong("proveedor_id"),
-                        resultado.getString("proveedor_nombre"), resultado.getString("empresa"),
-                        resultado.getString("nit"), resultado.getString("telefono"), resultado.getString("email"));
-                productos.add(new Producto(resultado.getLong("id"), resultado.getString("codigo"),
-                        resultado.getString("nombre"), resultado.getBigDecimal("precio"),
-                        resultado.getInt("stock"), categoria, proveedor, resultado.getInt("activo") == 1));
+                PreparedStatement consulta = conexion.prepareStatement(sql)) {
+            String filtro = Validators.texto(texto, "Búsqueda", 150);
+            consulta.setString(1, filtro);
+            consulta.setString(2, filtro);
+            try (ResultSet resultado = consulta.executeQuery()) {
+                while (resultado.next()) {
+                    Categoria categoria = new Categoria(resultado.getLong("categoria_id"),
+                            resultado.getString("categoria_nombre"), resultado.getString("descripcion"));
+                    Proveedor proveedor = new Proveedor(resultado.getLong("proveedor_id"),
+                            resultado.getString("proveedor_nombre"), resultado.getString("empresa"),
+                            resultado.getString("nit"), resultado.getString("telefono"), resultado.getString("email"));
+                    productos.add(new Producto(resultado.getLong("id"), resultado.getString("codigo"),
+                            resultado.getString("nombre"), resultado.getBigDecimal("precio"),
+                            resultado.getInt("stock"), categoria, proveedor, resultado.getInt("activo") == 1));
+                }
             }
         }
         return productos;
@@ -55,7 +65,7 @@ public class ProductoDAO {
             asignar(consulta, producto);
             consulta.setLong(8, producto.getId());
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El producto ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El producto ya no existe. Actualiza la lista.");
             }
         }
     }
@@ -82,7 +92,7 @@ public class ProductoDAO {
                 PreparedStatement consulta = conexion.prepareStatement("DELETE FROM productos WHERE id = ?")) {
             consulta.setLong(1, id);
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El producto ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El producto ya no existe. Actualiza la lista.");
             }
         }
     }
