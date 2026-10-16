@@ -49,7 +49,7 @@ public class ProveedorDAO {
             asignar(consulta, dato);
             consulta.setLong(6, dato.getId());
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El registro ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El registro ya no existe. Actualiza la lista.");
             }
         }
     }
@@ -58,7 +58,7 @@ public class ProveedorDAO {
         consulta.setString(1, Validators.requerido(dato.getNombre(), "Nombre", 120));
         consulta.setString(2, Validators.requerido(dato.getEmpresa(), "Empresa", 150));
         consulta.setString(3, Validators.requerido(dato.getNit(), "NIT", 30));
-        consulta.setString(4, Validators.texto(dato.getTelefono(), "Teléfono", 30));
+        consulta.setString(4, Validators.telefono(dato.getTelefono()));
         consulta.setString(5, Validators.correo(dato.getEmail()));
     }
 
@@ -67,7 +67,7 @@ public class ProveedorDAO {
                 PreparedStatement consulta = conexion.prepareStatement("DELETE FROM proveedores WHERE id = ?")) {
             consulta.setLong(1, id);
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El registro ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El registro ya no existe. Actualiza la lista.");
             }
         }
     }

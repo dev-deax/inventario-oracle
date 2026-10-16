@@ -57,7 +57,7 @@ public class UsuarioDAO {
                 consulta.setLong(4, usuario.getId());
             }
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El usuario ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El usuario ya no existe. Actualiza la lista.");
             }
         }
     }
@@ -70,7 +70,7 @@ public class UsuarioDAO {
                 PreparedStatement consulta = conexion.prepareStatement("DELETE FROM usuarios WHERE id = ?")) {
             consulta.setLong(1, id);
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El usuario ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El usuario ya no existe. Actualiza la lista.");
             }
         }
     }

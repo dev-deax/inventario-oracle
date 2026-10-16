@@ -12,7 +12,7 @@ public class Validators {
     }
 
     public static String texto(String valor, String campo, int maximo) {
-        String resultado = valor.trim();
+        String resultado = valor == null ? "" : valor.trim();
         if (resultado.length() > maximo) {
             throw new IllegalArgumentException(campo + " admite hasta " + maximo + " caracteres.");
         }
@@ -35,9 +35,22 @@ public class Validators {
         return resultado;
     }
 
+    public static String telefono(String valor) {
+        String resultado = texto(valor, "Teléfono", 30);
+        if (!resultado.isEmpty() && (!resultado.matches("[+0-9() .-]+")
+                || !resultado.matches(".*[0-9].*"))) {
+            throw new IllegalArgumentException("El teléfono solo admite números, espacios, +, guiones y paréntesis.");
+        }
+        return resultado;
+    }
+
     public static BigDecimal precio(String valor) {
         try {
-            BigDecimal numero = new BigDecimal(requerido(valor, "Precio", 20));
+            String texto = requerido(valor, "Precio", 20);
+            if (!texto.matches("[0-9]+(\\.[0-9]+)?")) {
+                throw new IllegalArgumentException("Ingresa un precio válido, por ejemplo 25.50.");
+            }
+            BigDecimal numero = new BigDecimal(texto);
             if (numero.signum() < 0 || numero.compareTo(new BigDecimal("9999999999.99")) > 0
                     || numero.stripTrailingZeros().scale() > 2) {
                 throw new IllegalArgumentException("El precio debe ser positivo o cero, con máximo 2 decimales y 10 enteros.");

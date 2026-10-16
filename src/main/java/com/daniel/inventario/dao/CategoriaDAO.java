@@ -49,7 +49,7 @@ public class CategoriaDAO {
             asignar(consulta, dato);
             consulta.setLong(3, dato.getId());
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El registro ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El registro ya no existe. Actualiza la lista.");
             }
         }
     }
@@ -64,7 +64,7 @@ public class CategoriaDAO {
                 PreparedStatement consulta = conexion.prepareStatement("DELETE FROM categorias WHERE id = ?")) {
             consulta.setLong(1, id);
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El registro ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El registro ya no existe. Actualiza la lista.");
             }
         }
     }

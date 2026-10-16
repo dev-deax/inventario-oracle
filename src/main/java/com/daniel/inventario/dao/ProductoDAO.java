@@ -65,7 +65,7 @@ public class ProductoDAO {
             asignar(consulta, producto);
             consulta.setLong(8, producto.getId());
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El producto ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El producto ya no existe. Actualiza la lista.");
             }
         }
     }
@@ -92,7 +92,7 @@ public class ProductoDAO {
                 PreparedStatement consulta = conexion.prepareStatement("DELETE FROM productos WHERE id = ?")) {
             consulta.setLong(1, id);
             if (consulta.executeUpdate() == 0) {
-                throw new SQLException("El producto ya no existe. Actualiza la lista.");
+                throw new IllegalArgumentException("El producto ya no existe. Actualiza la lista.");
             }
         }
     }
