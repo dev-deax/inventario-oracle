@@ -13,14 +13,24 @@ import java.util.ArrayList;
 
 public class UsuarioDAO {
     public ArrayList<Usuario> listar() throws SQLException {
+        return buscar("");
+    }
+
+    public ArrayList<Usuario> buscar(String texto) throws SQLException {
         ArrayList<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT id, usuario, nombre, apellido FROM usuarios ORDER BY creado_en DESC, id DESC";
+        String sql = "SELECT id, usuario, nombre, apellido FROM usuarios"
+                + "WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || usuario || ' ' || nombre || ' ' || apellido), LOWER(?)) > 0)"
+                + " ORDER BY creado_en DESC, id DESC";
         try (Connection conexion = ConnectionManager.conectar();
-                PreparedStatement consulta = conexion.prepareStatement(sql);
-                ResultSet resultado = consulta.executeQuery()) {
-            while (resultado.next()) {
-                usuarios.add(new Usuario(resultado.getLong("id"), resultado.getString("usuario"),
-                        resultado.getString("nombre"), resultado.getString("apellido")));
+                PreparedStatement consulta = conexion.prepareStatement(sql)) {
+            String filtro = Validators.texto(texto, "Búsqueda", 150);
+            consulta.setString(1, filtro);
+            consulta.setString(2, filtro);
+            try (ResultSet resultado = consulta.executeQuery()) {
+                while (resultado.next()) {
+                    usuarios.add(new Usuario(resultado.getLong("id"), resultado.getString("usuario"),
+                            resultado.getString("nombre"), resultado.getString("apellido")));
+                }
             }
         }
         return usuarios;

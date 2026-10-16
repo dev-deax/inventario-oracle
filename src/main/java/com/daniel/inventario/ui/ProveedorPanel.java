@@ -30,7 +30,7 @@ public class ProveedorPanel extends BaseCrudPanel {
 
     @Override
     protected void listar() throws Exception {
-        datos = dao.listar();
+        datos = dao.buscar(txtBusqueda.getText());
         for (Proveedor dato : datos) {
             modelo.addRow(new Object[]{dato.getId(), dato.getNombre(), dato.getEmpresa(), dato.getNit(), dato.getTelefono(), dato.getEmail()});
         }

@@ -28,7 +28,7 @@ public class UsuarioPanel extends BaseCrudPanel {
 
     @Override
     protected void listar() throws Exception {
-        usuarios = dao.listar();
+        usuarios = dao.buscar(txtBusqueda.getText());
         for (Usuario usuario : usuarios) {
             modelo.addRow(new Object[]{usuario.getId(), usuario.getUsuario(), usuario.getNombre(), usuario.getApellido()});
         }
