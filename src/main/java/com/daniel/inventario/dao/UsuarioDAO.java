@@ -19,7 +19,7 @@ public class UsuarioDAO {
     public ArrayList<Usuario> buscar(String texto) throws SQLException {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT id, usuario, nombre, apellido FROM usuarios"
-                + "WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || usuario || ' ' || nombre || ' ' || apellido), LOWER(?)) > 0)"
+                + " WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || usuario || ' ' || nombre || ' ' || apellido), LOWER(?)) > 0)"
                 + " ORDER BY creado_en DESC, id DESC";
         try (Connection conexion = ConnectionManager.conectar();
                 PreparedStatement consulta = conexion.prepareStatement(sql)) {
