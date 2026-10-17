@@ -18,7 +18,7 @@ public class UsuarioDAO {
 
     public ArrayList<Usuario> buscar(String texto) throws SQLException {
         ArrayList<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT id, usuario, nombre, apellido FROM usuarios"
+        String sql = "SELECT id, usuario, nombre, apellido, creado_en FROM usuarios"
                 + " WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || usuario || ' ' || nombre || ' ' || apellido), LOWER(?)) > 0)"
                 + " ORDER BY creado_en DESC, id DESC";
         try (Connection conexion = ConnectionManager.conectar();
@@ -29,7 +29,7 @@ public class UsuarioDAO {
             try (ResultSet resultado = consulta.executeQuery()) {
                 while (resultado.next()) {
                     usuarios.add(new Usuario(resultado.getLong("id"), resultado.getString("usuario"),
-                            resultado.getString("nombre"), resultado.getString("apellido")));
+                            resultado.getString("nombre"), resultado.getString("apellido"), resultado.getTimestamp("creado_en").toLocalDateTime()));
                 }
             }
         }
@@ -81,14 +81,14 @@ public class UsuarioDAO {
         if (password == null || password.length == 0) {
             throw new IllegalArgumentException("Ingresa tu contraseña.");
         }
-        String sql = "SELECT id, usuario, nombre, apellido, password_hash FROM usuarios WHERE usuario = ?";
+        String sql = "SELECT id, usuario, nombre, apellido, password_hash, creado_en FROM usuarios WHERE usuario = ?";
         try (Connection conexion = ConnectionManager.conectar();
                 PreparedStatement consulta = conexion.prepareStatement(sql)) {
             consulta.setString(1, usuario);
             try (ResultSet resultado = consulta.executeQuery()) {
                 if (resultado.next() && Passwords.verificar(password, resultado.getString("password_hash"))) {
                     return new Usuario(resultado.getLong("id"), resultado.getString("usuario"),
-                            resultado.getString("nombre"), resultado.getString("apellido"));
+                            resultado.getString("nombre"), resultado.getString("apellido"), resultado.getTimestamp("creado_en").toLocalDateTime());
                 }
             }
         }
