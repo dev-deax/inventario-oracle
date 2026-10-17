@@ -32,14 +32,14 @@ public class UiSmokeTest {
     private static void verificar() throws Exception {
         Style.aplicar();
         UsuarioPanel usuarios = new UsuarioPanel(new Usuario(1L, "demo", "Ana", "Pérez"));
-        comprobar(usuarios.modelo.getColumnCount() == 4, "La tabla de usuarios no debe exponer contraseñas");
+        comprobar(usuarios.modelo.getColumnCount() == 5, "La tabla de usuarios no debe exponer contraseñas");
         CategoriaPanel categorias = new CategoriaPanel();
         ArrayList<Categoria> datos = new ArrayList<>();
         datos.add(new Categoria(10L, "Tecnología", "Accesorios"));
         Field lista = CategoriaPanel.class.getDeclaredField("datos");
         lista.setAccessible(true);
         lista.set(categorias, datos);
-        categorias.modelo.addRow(new Object[]{10L, "Tecnología", "Accesorios"});
+        categorias.modelo.addRow(new Object[]{10L, "Tecnología", "Accesorios", "17/10/2026 07:30"});
         categorias.tabla.setRowSelectionInterval(0, 0);
         comprobar(categorias.idSeleccionado.equals(10L), "Selección de fila");
         Field nombre = CategoriaPanel.class.getDeclaredField("txtNombre");
