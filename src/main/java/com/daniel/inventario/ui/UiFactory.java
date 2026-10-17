@@ -12,6 +12,16 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 public class UiFactory {
+    private static final java.time.format.DateTimeFormatter FORMATO_FECHA =
+            java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm");
+
+    public static String fechaCreacion(java.time.LocalDateTime fecha) {
+        if (fecha == null) {
+            return "";
+        }
+        return fecha.format(FORMATO_FECHA);
+    }
+
     public static JTextField campo() {
         JTextField campo = new JTextField(18);
         prepararCampo(campo);

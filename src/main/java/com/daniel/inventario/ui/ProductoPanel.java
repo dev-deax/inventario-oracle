@@ -24,7 +24,7 @@ public class ProductoPanel extends BaseCrudPanel {
     private ArrayList<Producto> productos = new ArrayList<>();
 
     public ProductoPanel() {
-        super("Productos", new String[]{"ID", "Código", "Nombre", "Precio", "Stock", "Categoría", "Proveedor", "Activo"});
+        super("Productos", new String[]{"ID", "Código", "Nombre", "Precio", "Stock", "Categoría", "Proveedor", "Activo", "Fecha de creación"});
         agregarCampo("Código", txtCodigo);
         agregarCampo("Nombre", txtNombre);
         agregarCampo("Precio", txtPrecio);
@@ -61,7 +61,7 @@ public class ProductoPanel extends BaseCrudPanel {
             }
             modelo.addRow(new Object[]{producto.getId(), producto.getCodigo(), producto.getNombre(),
                 producto.getPrecio(), producto.getStock(), producto.getCategoria().getNombre(),
-                producto.getProveedor().getNombre(), estado});
+                producto.getProveedor().getNombre(), estado, UiFactory.fechaCreacion(producto.getCreadoEn())});
         }
     }
 

@@ -35,7 +35,7 @@ Abrir esta carpeta como proyecto Maven en NetBeans y usar **Run Project (F6)**. 
 mvn compile exec:java
 ```
 
-En Usuarios, una contraseña vacía al editar conserva la existente. No se permite eliminar la cuenta de la sesión actual. Productos requiere que existan categorías y proveedores. Las tablas muestran primero los registros más recientes. Buscar admite ID o texto sin distinguir mayúsculas; Enter ejecuta la búsqueda y Actualizar limpia el filtro.
+En Usuarios, una contraseña vacía al editar conserva la existente. No se permite eliminar la cuenta de la sesión actual. Productos requiere que existan categorías y proveedores. Las tablas muestran primero los registros más recientes e incluyen una columna de fecha de creación con formato día/mes/año y hora, tomada de Oracle. En tablas anchas se puede desplazar horizontalmente para verla. Buscar admite ID o texto sin distinguir mayúsculas; Enter ejecuta la búsqueda y Actualizar limpia el filtro.
 
 ## Verificar
 

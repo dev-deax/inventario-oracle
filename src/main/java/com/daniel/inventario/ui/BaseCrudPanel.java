@@ -69,6 +69,13 @@ public abstract class BaseCrudPanel extends JPanel implements Refreshable, Actio
         };
         tabla = new JTable(modelo);
         tabla.setRowHeight(36);
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setPreferredWidth(140);
+        }
+        int ultima = tabla.getColumnCount() - 1;
+        tabla.getColumnModel().getColumn(ultima).setMinWidth(170);
+        tabla.getColumnModel().getColumn(ultima).setPreferredWidth(170);
         tabla.getColumnModel().getColumn(0).setPreferredWidth(50);
         tabla.getColumnModel().getColumn(0).setMaxWidth(60);
         tabla.setShowVerticalLines(false);

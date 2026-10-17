@@ -12,7 +12,7 @@ public class CategoriaPanel extends BaseCrudPanel {
     private ArrayList<Categoria> datos = new ArrayList<>();
 
     public CategoriaPanel() {
-        super("Categorías", new String[]{"ID", "Nombre", "Descripción"});
+        super("Categorías", new String[]{"ID", "Nombre", "Descripción", "Fecha de creación"});
         agregarCampo("Nombre", txtNombre);
         agregarCampo("Descripción", txtDescripcion);
     }
@@ -21,7 +21,7 @@ public class CategoriaPanel extends BaseCrudPanel {
     protected void listar() throws Exception {
         datos = dao.buscar(txtBusqueda.getText());
         for (Categoria dato : datos) {
-            modelo.addRow(new Object[]{dato.getId(), dato.getNombre(), dato.getDescripcion()});
+            modelo.addRow(new Object[]{dato.getId(), dato.getNombre(), dato.getDescripcion(), UiFactory.fechaCreacion(dato.getCreadoEn())});
         }
     }
 
