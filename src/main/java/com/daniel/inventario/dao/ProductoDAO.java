@@ -19,7 +19,7 @@ public class ProductoDAO {
 
     public ArrayList<Producto> buscar(String texto) throws SQLException {
         ArrayList<Producto> productos = new ArrayList<>();
-        String sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.stock, p.activo, "
+        String sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.stock, p.activo, p.creado_en, "
                 + "c.id categoria_id, c.nombre categoria_nombre, c.descripcion, "
                 + "v.id proveedor_id, v.nombre proveedor_nombre, v.empresa, v.nit, v.telefono, v.email "
                 + "FROM productos p JOIN categorias c ON c.id = p.categoria_id "
@@ -40,7 +40,7 @@ public class ProductoDAO {
                             resultado.getString("nit"), resultado.getString("telefono"), resultado.getString("email"));
                     productos.add(new Producto(resultado.getLong("id"), resultado.getString("codigo"),
                             resultado.getString("nombre"), resultado.getBigDecimal("precio"),
-                            resultado.getInt("stock"), categoria, proveedor, resultado.getInt("activo") == 1));
+                            resultado.getInt("stock"), categoria, proveedor, resultado.getInt("activo") == 1, resultado.getTimestamp("creado_en").toLocalDateTime()));
                 }
             }
         }

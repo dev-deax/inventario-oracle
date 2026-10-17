@@ -15,7 +15,7 @@ public class ProveedorPanel extends BaseCrudPanel {
     private ArrayList<Proveedor> datos = new ArrayList<>();
 
     public ProveedorPanel() {
-        super("Proveedores", new String[]{"ID", "Nombre", "Empresa", "NIT", "Teléfono", "Correo"});
+        super("Proveedores", new String[]{"ID", "Nombre", "Empresa", "NIT", "Teléfono", "Correo", "Fecha de creación"});
         agregarCampo("Nombre", txtNombre);
         agregarCampo("Empresa", txtEmpresa);
         agregarCampo("NIT", txtNit);
@@ -32,7 +32,7 @@ public class ProveedorPanel extends BaseCrudPanel {
     protected void listar() throws Exception {
         datos = dao.buscar(txtBusqueda.getText());
         for (Proveedor dato : datos) {
-            modelo.addRow(new Object[]{dato.getId(), dato.getNombre(), dato.getEmpresa(), dato.getNit(), dato.getTelefono(), dato.getEmail()});
+            modelo.addRow(new Object[]{dato.getId(), dato.getNombre(), dato.getEmpresa(), dato.getNit(), dato.getTelefono(), dato.getEmail(), UiFactory.fechaCreacion(dato.getCreadoEn())});
         }
     }
 

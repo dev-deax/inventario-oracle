@@ -17,7 +17,7 @@ public class UsuarioPanel extends BaseCrudPanel {
     private ArrayList<Usuario> usuarios = new ArrayList<>();
 
     public UsuarioPanel(Usuario sesion) {
-        super("Usuarios", new String[]{"ID", "Usuario", "Nombre", "Apellido"});
+        super("Usuarios", new String[]{"ID", "Usuario", "Nombre", "Apellido", "Fecha de creación"});
         this.sesion = sesion;
         agregarCampo("Usuario", txtUsuario);
         agregarCampo("Nombre", txtNombre);
@@ -30,7 +30,7 @@ public class UsuarioPanel extends BaseCrudPanel {
     protected void listar() throws Exception {
         usuarios = dao.buscar(txtBusqueda.getText());
         for (Usuario usuario : usuarios) {
-            modelo.addRow(new Object[]{usuario.getId(), usuario.getUsuario(), usuario.getNombre(), usuario.getApellido()});
+            modelo.addRow(new Object[]{usuario.getId(), usuario.getUsuario(), usuario.getNombre(), usuario.getApellido(), UiFactory.fechaCreacion(usuario.getCreadoEn())});
         }
     }
 

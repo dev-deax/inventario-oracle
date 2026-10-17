@@ -64,6 +64,11 @@ public class OracleIntegrationTest {
             productos.insertar(producto);
             Producto guardado = productos.listar().get(0);
             comprobar(guardado.getCodigo().equals(codigo), "Producto reciente primero");
+            comprobar(sesion.getCreadoEn() != null && categoria.getCreadoEn() != null
+                    && proveedor.getCreadoEn() != null && guardado.getCreadoEn() != null,
+                    "Leer la fecha de creación de las cuatro entidades");
+            comprobar(productos.buscar(codigo).get(0).getCreadoEn().equals(guardado.getCreadoEn()),
+                    "Conservar la fecha al buscar");
             comprobar(usuarios.buscar(marca.toUpperCase(java.util.Locale.ROOT)).size() == 1, "Buscar usuario sin distinguir mayúsculas");
             comprobar(categorias.buscar(marca).get(0).getId().equals(categoria.getId()), "Buscar categoría");
             comprobar(proveedores.buscar(marca).get(0).getId().equals(proveedor.getId()), "Buscar proveedor");
@@ -96,6 +101,8 @@ public class OracleIntegrationTest {
             comprobar(duplicado, "Código duplicado rechazado");
             productos.actualizar(new Producto(guardado.getId(), codigo, "Actualizado", BigDecimal.ZERO, 0, categoria, proveedor, false));
             comprobar(!productos.listar().get(0).isActivo(), "Actualizar producto");
+            comprobar(productos.listar().get(0).getCreadoEn().equals(guardado.getCreadoEn()),
+                    "Editar no cambia la fecha de creación");
             productos.eliminar(guardado.getId());
             categorias.eliminar(categoria.getId());
             proveedores.eliminar(proveedor.getId());

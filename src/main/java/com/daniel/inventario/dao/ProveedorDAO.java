@@ -16,7 +16,7 @@ public class ProveedorDAO {
 
     public ArrayList<Proveedor> buscar(String texto) throws SQLException {
         ArrayList<Proveedor> datos = new ArrayList<>();
-        String sql = "SELECT id, nombre, empresa, nit, telefono, email FROM proveedores"
+        String sql = "SELECT id, nombre, empresa, nit, telefono, email, creado_en FROM proveedores"
                 + " WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || nombre || ' ' || empresa || ' ' || nit || ' ' || telefono || ' ' || email), LOWER(?)) > 0)"
                 + " ORDER BY creado_en DESC, id DESC";
         try (Connection conexion = ConnectionManager.conectar();
@@ -26,7 +26,7 @@ public class ProveedorDAO {
             consulta.setString(2, filtro);
             try (ResultSet resultado = consulta.executeQuery()) {
                 while (resultado.next()) {
-                    datos.add(new Proveedor(resultado.getLong("id"), resultado.getString("nombre"), resultado.getString("empresa"), resultado.getString("nit"), resultado.getString("telefono"), resultado.getString("email")));
+                    datos.add(new Proveedor(resultado.getLong("id"), resultado.getString("nombre"), resultado.getString("empresa"), resultado.getString("nit"), resultado.getString("telefono"), resultado.getString("email"), resultado.getTimestamp("creado_en").toLocalDateTime()));
                 }
             }
         }

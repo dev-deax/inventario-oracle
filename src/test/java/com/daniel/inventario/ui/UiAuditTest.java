@@ -32,6 +32,7 @@ public class UiAuditTest {
                             distribuir(ventana.getContentPane());
                             revisarMenu((Container) ventana.getContentPane().getComponent(0));
                             revisarAcciones(ventana.getContentPane());
+                            revisarFechas(ventana.getContentPane());
                             capturar(ventana.getContentPane(), pantalla, ancho);
                         }
                     }
@@ -78,6 +79,30 @@ public class UiAuditTest {
             }
             if (componente instanceof Container) {
                 revisarAcciones((Container) componente);
+            }
+        }
+    }
+
+    private static void revisarFechas(Container contenedor) {
+        if (!contenedor.isVisible()) {
+            return;
+        }
+        for (Component componente : contenedor.getComponents()) {
+            if (componente instanceof javax.swing.JTable) {
+                javax.swing.JTable tabla = (javax.swing.JTable) componente;
+                int columna = tabla.getColumnCount() - 1;
+                if (!tabla.getColumnName(columna).equals("Fecha de creación")) {
+                    throw new AssertionError("Falta la columna de fecha");
+                }
+                for (int fila = 0; fila < tabla.getRowCount(); fila++) {
+                    String fecha = String.valueOf(tabla.getValueAt(fila, columna));
+                    if (!fecha.matches("[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}")) {
+                        throw new AssertionError("Formato de fecha incorrecto: " + fecha);
+                    }
+                }
+            }
+            if (componente instanceof Container) {
+                revisarFechas((Container) componente);
             }
         }
     }

@@ -16,7 +16,7 @@ public class CategoriaDAO {
 
     public ArrayList<Categoria> buscar(String texto) throws SQLException {
         ArrayList<Categoria> datos = new ArrayList<>();
-        String sql = "SELECT id, nombre, descripcion FROM categorias"
+        String sql = "SELECT id, nombre, descripcion, creado_en FROM categorias"
                 + " WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || nombre || ' ' || descripcion), LOWER(?)) > 0)"
                 + " ORDER BY creado_en DESC, id DESC";
         try (Connection conexion = ConnectionManager.conectar();
@@ -26,7 +26,7 @@ public class CategoriaDAO {
             consulta.setString(2, filtro);
             try (ResultSet resultado = consulta.executeQuery()) {
                 while (resultado.next()) {
-                    datos.add(new Categoria(resultado.getLong("id"), resultado.getString("nombre"), resultado.getString("descripcion")));
+                    datos.add(new Categoria(resultado.getLong("id"), resultado.getString("nombre"), resultado.getString("descripcion"), resultado.getTimestamp("creado_en").toLocalDateTime()));
                 }
             }
         }

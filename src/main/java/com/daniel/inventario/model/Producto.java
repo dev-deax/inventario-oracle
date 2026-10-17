@@ -1,9 +1,11 @@
 package com.daniel.inventario.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Producto {
     private Long id;
+    private LocalDateTime creadoEn;
     private String codigo;
     private String nombre;
     private BigDecimal precio;
@@ -14,7 +16,13 @@ public class Producto {
 
     public Producto(Long id, String codigo, String nombre, BigDecimal precio, int stock,
             Categoria categoria, Proveedor proveedor, boolean activo) {
+        this(id, codigo, nombre, precio, stock, categoria, proveedor, activo, null);
+    }
+
+    public Producto(Long id, String codigo, String nombre, BigDecimal precio, int stock,
+            Categoria categoria, Proveedor proveedor, boolean activo, LocalDateTime creadoEn) {
         this.id = id;
+        this.creadoEn = creadoEn;
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
@@ -24,6 +32,7 @@ public class Producto {
         this.activo = activo;
     }
 
+    public LocalDateTime getCreadoEn() { return creadoEn; }
     public Long getId() { return id; }
     public String getCodigo() { return codigo; }
     public String getNombre() { return nombre; }
