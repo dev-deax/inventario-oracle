@@ -17,7 +17,7 @@ public class ProveedorDAO {
     public ArrayList<Proveedor> buscar(String texto) throws SQLException {
         ArrayList<Proveedor> datos = new ArrayList<>();
         String sql = "SELECT id, nombre, empresa, nit, telefono, email FROM proveedores"
-                + "WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || nombre || ' ' || empresa || ' ' || nit || ' ' || telefono || ' ' || email), LOWER(?)) > 0)"
+                + " WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(id) || ' ' || nombre || ' ' || empresa || ' ' || nit || ' ' || telefono || ' ' || email), LOWER(?)) > 0)"
                 + " ORDER BY creado_en DESC, id DESC";
         try (Connection conexion = ConnectionManager.conectar();
                 PreparedStatement consulta = conexion.prepareStatement(sql)) {

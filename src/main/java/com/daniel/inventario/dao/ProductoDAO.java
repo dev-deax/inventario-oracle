@@ -24,7 +24,7 @@ public class ProductoDAO {
                 + "v.id proveedor_id, v.nombre proveedor_nombre, v.empresa, v.nit, v.telefono, v.email "
                 + "FROM productos p JOIN categorias c ON c.id = p.categoria_id "
                 + "JOIN proveedores v ON v.id = p.proveedor_id"
-                + "WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(p.id) || ' ' || p.codigo || ' ' || p.nombre || ' ' || c.nombre || ' ' || v.nombre), LOWER(?)) > 0)"
+                + " WHERE (? IS NULL OR INSTR(LOWER(TO_CHAR(p.id) || ' ' || p.codigo || ' ' || p.nombre || ' ' || c.nombre || ' ' || v.nombre), LOWER(?)) > 0)"
                 + " ORDER BY p.creado_en DESC, p.id DESC";
         try (Connection conexion = ConnectionManager.conectar();
                 PreparedStatement consulta = conexion.prepareStatement(sql)) {
